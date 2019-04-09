@@ -1,0 +1,25 @@
+{
+	"config": {
+		"name": "create users with uid",
+		"variables": {},
+		"base_url": "http://10.240.70.245:8181"
+	},
+	"testcases": {
+		"addNode": {
+			"testcase": "testcases/addNode.json",
+			"parameters": [{"userLabel*hostIp*neType": "${parameterize(ne.csv)}"}]
+		},
+		"addLinkAndGroup": {
+			"testcase": "testcases/addLinkAndGroup.json",
+			"parameters": [
+				{"userLabel*source_node*dest_node*source_port*dest_port*group_name*calendar_type*group_id*nodea_member*nodeb_member": "${parameterize(linkAndGroup.csv)}"}
+			]
+		},
+		"addClient": {
+			"testcase": "testcases/addClient.json",
+			"parameters": [
+				{"client_name*group_name*nodeA_ip*nodeB_ip*used_slots*ip_type*ip_address_A*ip_address_B*length*bandwidth": "${parameterize(client.csv)}"}
+			]
+		}
+	}
+}

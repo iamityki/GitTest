@@ -1,0 +1,13 @@
+{
+	"config": {
+		"name": "create users with uid",
+		"variables": {},
+		"base_url": "http://10.240.70.161:8181"
+	},
+	"testcases": {
+		"delNode": {
+			"testcase": "testcases/delNode.json",
+			"parameters": [{"hostIp": "${parameterize(ne250.csv)}"}]
+		}
+	}
+}

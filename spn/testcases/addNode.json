@@ -1,0 +1,416 @@
+[
+    {
+        "config": {
+            "name": "testcase description",
+            "variables": {}
+        }
+    },
+    {
+        "test": {
+            "name": "/topology/topology/toplevelid/physical",
+            "request": {
+                "url": "/topology/topology/toplevelid/physical",
+                "method": "GET",
+                "headers": {
+                    "Authorization": "Basic YWRtaW46YWRtaW4=",
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36"
+                }
+            },
+            "extract": [
+                {
+                    "physicalScId": "content.id"
+                }
+            ],
+            "validate": [
+                {
+                    "eq": [
+                        "status_code",
+                        200
+                    ]
+                },
+                {
+                    "eq": [
+                        "headers.Content-Type",
+                        "application/json"
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.children",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.name",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.ip",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.type",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.vendorName",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.location",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.resourceId",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.label",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.adminStatus",
+                        0
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.operateStatus",
+                        0
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.parentGroupId",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.parentTopoId",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.parentNodesetId",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.locator",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.neType",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.topoX",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.topoY",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.alarmCount",
+                        null
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "test": {
+            "name": "/topology/topology/group/physicalScId",
+            "request": {
+                "url": "/topology/topology/group/$physicalScId",
+                "method": "GET",
+                "headers": {
+                    "Authorization": "Basic YWRtaW46YWRtaW4=",
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36"
+                }
+            },
+            "extract": [
+                {
+                    "physicalDcId": "content.0.id"
+                }
+            ],
+            "validate": [
+                {
+                    "eq": [
+                        "status_code",
+                        200
+                    ]
+                },
+                {
+                    "eq": [
+                        "headers.Content-Type",
+                        "application/json"
+                    ],
+                    "eq": [
+                        "content.0.name",
+                        "Domain Controller"
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "test": {
+            "name": "/topology/topology/node/add",
+            "variables": {},
+            "request": {
+                "url": "/topology/topology/node/add",
+                "method": "POST",
+                "headers": {
+                    "Authorization": "Basic YWRtaW46YWRtaW4=",
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36",
+                    "Content-Type": "application/json"
+                },
+                "json": {
+                    "userLabel": "$userLabel",
+                    "neType": "$neType",
+                    "port": 830,
+                    "hostIp": "$hostIp",
+                    "tcpOnly": false,
+                    "reconnectOnChangedSchema": true,
+                    "defaultRequestTimeoutMillis": 60000,
+                    "betweenAttemptsTimeoutMillis": 30000,
+                    "password": "root",
+                    "userName": "root",
+                    "connectionType": 0,
+                    "belongGateway": "",
+                    "domain": "",
+                    "location": "",
+                    "longitude": null,
+                    "latitude": null,
+                    "equipmentType": 0,
+                    "networkLevel": 0,
+                    "user": "",
+                    "reserved": "",
+                    "parentNcdId": "$physicalDcId"
+                }
+            },
+            "validate": [
+                {
+                    "eq": [
+                        "status_code",
+                        200
+                    ]
+                },
+                {
+                    "eq": [
+                        "headers.Content-Type",
+                        "application/json"
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.version",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.nodeType",
+                        "SPN805"
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.sleepFactor",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.connectedMessage",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.passThrough",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.schemaless",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.yangModuleCapabilities",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.tcpOnly",
+                        false
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.nonModuleCapabilities",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.reconnectOnChangedSchema",
+                        true
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.defaultRequestTimeoutMillis",
+                        60000
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.maxConnectionAttempts",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.betweenAttemptsTimeoutMillis",
+                        30000
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.keepaliveDelay",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.concurrentRpcLimit",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.actorResponseWaitTime",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.yangLibrary",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.connectionStatus",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.clusteredConnectionStatus",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.schemaCacheDirectory",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.availableCapabilities",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.unavailableCapabilities",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.implementedInterface",
+                        "org.opendaylight.yang.gen.v1.urn.utstarcom.sdn.connection.config.rev170927.CreateNodeConnectionOutput"
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.adminIp",
+                        "$hostIp"
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.parentNcdId",
+                        "$physicalDcId"
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.nodeTypeMismatch",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.connectionTimeoutMillis",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.userLabel",
+                        "$userLabel"
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.name",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.location",
+                        null
+                    ]
+                }
+            ]
+        }
+    }
+]

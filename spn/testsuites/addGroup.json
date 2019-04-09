@@ -1,0 +1,25 @@
+{
+	"config": {
+		"name": "add group",
+		"variables": {},
+		"base_url": "http://10.240.70.161:8181"
+	},
+	"testcases": {
+		"addnode": {
+			"testcase": "testcases/addNode.json",
+			"parameters": [{"userLabel*hostIp*neType": "${parameterize(ne.csv)}"}]
+		},
+		"addlink": {
+			"testcase": "testcases/addLink.json",
+			"parameters": [
+				{"userLabel*source_node*dest_node*source_port*dest_port": "${parameterize(link.csv)}"}
+			]
+		},
+		"addgroup":{
+			"testcases":"testcases/addGroup.json",
+			"parameters": [
+				{}
+			]
+		}
+	}
+}

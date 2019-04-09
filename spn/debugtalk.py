@@ -1,0 +1,121 @@
+import requests
+import json
+import csv
+import pandas as pd
+import uuid
+
+server = "10.240.70.245"
+path = "E:\\hrunProject\\spn"
+# 根据ip获取网元nodeId
+def getNodeId(ip):
+    url = "http://"+ server +":8181/restconf/operational/utstarcom-sdn-connection-config:connections/"
+    r = requests.get(url = url, auth = ('admin', 'admin'))
+    nodeConnectionList = json.loads(r.text).get("connections").get("node-connections").get("node-connection")
+    nodeId = ""
+    for item in nodeConnectionList:
+        if item["host"] == ip:
+            nodeId = item["id"]
+            break
+    return nodeId
+
+# def setPhysicalDcId(id):
+#     filename = path + "\\testcases\\csv\\groupDict.csv"
+#     with open(filename,"w+") as file_object:
+#         content = file_object.read()
+#         if content != "":
+#             contentDict = eval(content)
+#         else:
+#             contentDict = {}
+#         contentDict["topo_id"] = id
+#         file_object.seek(0,0)
+#         file_object.write(str(contentDict))
+
+def getPhysicalDcIdBySPN():
+    url = "http://" + server + ":8181/topology/topology/toplevelid/physical"
+    r = requests.get(url=url, auth=('admin', 'admin'))
+    physicalScId = json.loads(r.text).get("id")
+    urlDc = "http://" + server + ":8181/topology/topology/group/" + physicalScId
+    rDc = requests.get(url=urlDc, auth=('admin', 'admin'))
+    physicalScId = json.loads(rDc.text)[0].get("id")
+    return physicalScId
+
+# def getPhysicalDcId():
+#     filename = path + "\\testcases\\csv\\baseVariables.csv"
+#     with open(filename,"r")as file_object:
+#         content = file_object.read()
+#         if content != "":
+#             contentDict = eval(content)
+#             id = contentDict["topo_id"]
+#         else:
+#             id = getPhysicalDcIdBySPN()
+#         return id
+
+# 获取group的name和id,并写入group.csv文件
+def writeGroupId():
+    url = "http://" + server + ":8181/restconf/config/utstarcom-sdn-flexe:flexe-groups"
+    r = requests.get(url=url, auth=('admin', 'admin'))
+    groups = json.loads(r.text).get("flexe-groups")
+    groupId = []
+    groupName = []
+    groupDict = {}
+    if groups != None:
+        groupList = json.loads(r.text).get("flexe-groups").get("flexe-group")
+        for group in groupList:
+            groupId.append(group["id"])
+            groupName.append(group["name"])
+            groupDict[group["name"]] = group["id"]
+        df = pd.DataFrame({'groupName': groupName, 'groupId': groupId})
+        df.to_csv(path + "\\testcases\\csv\\group.csv", sep=',', header=True, index=False)
+        writeGroupDict(groupDict)
+    else:
+        df = pd.DataFrame({'groupName': groupName, 'groupId': groupId})
+        df.to_csv(path + "\\testcases\\csv\\group.csv", sep=',', header=True, index=False)
+        writeGroupDict(groupDict)
+
+# 将group的name和id,以key:value的形式写入groupDict.csv文件
+def writeGroupDict(groupDict):
+    filename = path + "\\testcases\\csv\\groupDict.csv"
+    with open(filename,"w+") as file_object:
+        if groupDict != "":
+            file_object.seek(0, 0)
+            file_object.write(str(groupDict))
+        else:
+            file_object.seek(0, 0)
+            file_object.write()
+
+def getGroupIdByName(name):
+    filename = path + "\\testcases\\csv\\groupDict.csv"
+    with open(filename,"r")as file_object:
+        content = file_object.read()
+        if content != "":
+            contentDict = eval(content)
+            id = contentDict[name]
+        else:
+            id = ""
+        return id
+
+def writeLinkId():
+    physicalDcId = getPhysicalDcIdBySPN()
+    url = "http://" + server + ":8181/topology/topology/" + physicalDcId + "/" + physicalDcId
+    r = requests.get(url=url, auth=('admin', 'admin'))
+    linkId = []
+    linkList = json.loads(r.text).get("links")
+    if linkList:
+        for link in linkList:
+            linkId.append(link["id"])
+        df = pd.DataFrame({'linkId': linkId})
+        df.to_csv(path + "\\testcases\\csv\\link.csv", sep=',', header=True, index=False)
+    else:
+        df = pd.DataFrame({'linkId': linkId})
+        df.to_csv(path + "\\testcases\\csv\\link.csv", sep=',', header=True, index=False)
+
+def getUuid():
+    UUID = uuid.uuid4()
+    return str(UUID)
+
+def getClientIdByGrouop(groupName):
+    groupId = getGroupIdByName(groupName)
+    url = "http://" + server + ":8181/flexe/mgt-client/clientId/groupId/"+ str(groupId)
+    r = requests.get(url=url, auth=('admin', 'admin'))
+    clientId = int(r.text)
+    return clientId

@@ -1,0 +1,73 @@
+[
+    {
+        "config": {
+            "name": "testcase description",
+            "variables": {
+                "writeGroupId":"${writeGroupId()}"
+            }
+        }
+    },
+    {
+        "test": {
+            "name": "/flexe/mgt-client/client",
+            "request": {
+                "url": "/flexe/mgt-client/client",
+                "method": "PUT",
+                "headers": {
+                    "Authorization": "Basic YWRtaW46YWRtaW4=",
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
+                    "Content-Type": "application/json"
+                },
+                "json": {
+                    "id": "${getUuid()}",
+                    "name": "$client_name",
+                    "carried-group": "${getGroupIdByName($group_name)}",
+                    "client-id": "${getClientIdByGrouop($group_name)}",
+                    "nodeA-client-index": 0,
+                    "nodeZ-client-index": 0,
+                    "nodeA-id": "${getNodeId($nodeA_ip)}",
+                    "nodeZ-id": "${getNodeId($nodeB_ip)}",
+                    "nodeA-used-slots": [
+                        "$used_slots"
+                    ],
+                    "nodeZ-used-slots": [
+                        "$used_slots"
+                    ],
+                    "admin-status": "admin-down",
+                    "operate-status": "operate-down",
+                    "nodeA-ip-addresses": [
+                        {
+                            "ip-type": "$ip_type",
+                            "ip-address": "$ip_address_A",
+                            "length": "$length"
+                        }
+                    ],
+                    "nodeZ-ip-addresses": [
+                        {
+                            "ip-type": "$ip_type",
+                            "ip-address": "$ip_address_B",
+                            "length": "$length"
+                        }
+                    ],
+                    "used-channel": "",
+                    "sync-status": "na",
+                    "bandwidth": "$bandwidth"
+                }
+            },
+            "validate": [
+                {
+                    "eq": [
+                        "status_code",
+                        200
+                    ]
+                },
+                {
+                    "eq": [
+                        "headers.Content-Type",
+                        "application/json"
+                    ]
+                }
+            ]
+        }
+    }
+]

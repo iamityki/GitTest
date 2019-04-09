@@ -1,0 +1,24 @@
+{
+	"config": {
+		"name": "delete operation",
+		"base_url": "http://10.240.70.245:8181",
+		"variables": {
+			"writeGroupId":"${writeGroupId()}",
+			"writeLinkId":"${writeLinkId()}"
+		}
+	},
+	"testcases": {
+		"delGroup": {
+			"testcase": "testcases/delGroup.json",
+			"parameters": [{"groupId": "${parameterize(group.csv)}"}]
+		},
+		"delLink": {
+			"testcase": "testcases/delLink.json",
+			"parameters": [{"linkId": "${parameterize(link.csv)}"}]
+		},
+		"delNode": {
+			"testcase": "testcases/delNode.json",
+			"parameters": [{"hostIp": "${parameterize(ne.csv)}"}]
+		}
+	}
+}

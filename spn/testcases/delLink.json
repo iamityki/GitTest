@@ -1,0 +1,42 @@
+[
+    {
+        "config": {
+            "name": "testcase description",
+            "variables": {
+                "id":"${getPhysicalDcIdBySPN()}"
+            }
+        }
+    },
+    {
+        "test": {
+            "name": "/topology/topology/link/del",
+            "request": {
+                "url": "/topology/topology/link/del",
+                "method": "POST",
+                "headers": {
+                    "Authorization": "Basic YWRtaW46YWRtaW4=",
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36",
+                    "Content-Type": "application/json"
+                },
+                "json": {
+                    "topo-id": "$id",
+                    "link-id": "$linkId"
+                }
+            },
+            "validate": [
+                {
+                    "eq": [
+                        "status_code",
+                        200
+                    ]
+                },
+                {
+                    "eq": [
+                        "headers.Content-Type",
+                        "application/json"
+                    ]
+                }
+            ]
+        }
+    }
+]

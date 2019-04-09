@@ -1,0 +1,13 @@
+{
+	"config": {
+		"name": "create users with uid",
+		"variables": {},
+		"base_url": "http://10.240.70.161:8181"
+	},
+	"testcases": {
+		"addnode": {
+			"testcase": "testcases/addNode.json",
+			"parameters": [{"userLabel*hostIp*neType": "${parameterize(ne250.csv)}"}]
+		}
+	}
+}

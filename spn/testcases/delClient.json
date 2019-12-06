@@ -2,14 +2,16 @@
     {
         "config": {
             "name": "testcase description",
-            "variables": {}
+            "variables": {
+                
+            }
         }
     },
     {
         "test": {
-            "name": "/flexe/mgt-group/group/",
+            "name": "/flexe/mgt-client/client/$clientId",
             "request": {
-                "url": "/flexe/mgt-group/group/$groupId",
+                "url": "/flexe/mgt-client/client/$clientId",
                 "method": "DELETE",
                 "headers": {
                     "Authorization": "Basic YWRtaW46YWRtaW4=",

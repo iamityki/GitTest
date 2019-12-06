@@ -1,3 +1,0 @@
-userLabel,source_node,dest_node,source_port,dest_port,group_name,calendar_type,group_id,nodea_member,nodeb_member
-17-18-link,10.240.70.17,10.240.70.18,\\s=9\\c=1\\j=1\\p=1,\\s=9\\c=1\\j=1\\p=1,17-18-group,A,1,eth9.1,eth9.1
-17-18-link2,10.240.70.17,10.240.70.18,\\s=9\\c=1\\j=2\\p=1,\\s=9\\c=1\\j=2\\p=1,17-18-group2,A,1,eth9.2,eth9.2

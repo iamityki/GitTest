@@ -1,0 +1,48 @@
+[
+    {
+        "config": {
+            "name": "add prefix nodeSid",
+            "variables": {
+                "domainId":"${getDomainId()}"
+            }
+        }
+    },
+    {
+        "test": {
+            "name": "/sid/sid-mgt/domains/prefix-sids",
+            "request": {
+                "url": "/sid/sid-mgt/domains/$domainId/prefix-sids",
+                "method": "POST",
+                "headers": {
+                    "Authorization": "Basic YWRtaW46YWRtaW4=",
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36",
+                    "Content-Type": "application/json"
+                },
+                "json": {
+                    "domain-id": "$domainId",
+                    "local-sid": true,
+                    "absolute-label": "${getNodeSid($uuid)}",
+                    "ip-version": 1,
+                    "name": "$nodeSidName",
+                    "node-id": "${getNodeId($nodeIp)}",
+                    "prefix": "${getPrefixIpByNodeId($nodeIp)}",
+                    "prefix-type": 0,
+                    "range": 1,
+                    "start-sid": 1,
+                    "status": 0,
+                    "value-type": 1,
+                    "is-node-SID": true,
+                    "prefix-SID-id": "$uuid"
+                }
+            },
+            "validate": [
+                {
+                    "eq": [
+                        "status_code",
+                        200
+                    ]
+                }
+            ]
+        }
+    }
+]

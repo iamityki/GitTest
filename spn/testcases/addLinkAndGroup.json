@@ -25,7 +25,7 @@
                 }
             },
             "extract": [
-                {"linkId": "content.link-id"}
+                {"linkId": "content.linkId"}
             ],
             "validate": [
                 {
@@ -73,7 +73,7 @@
                     "admin-status": "admin-down",
                     "operate-status": "operate-down",
                     "linkId": "$linkId",
-                    "sync-status": ""
+                    "sync-status": "na"
                 }
             },
             "validate": [

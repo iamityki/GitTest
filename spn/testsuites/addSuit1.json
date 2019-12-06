@@ -1,0 +1,15 @@
+{
+	"config": {
+		"name": "create users with uid",
+		"variables": {},
+		"base_url": "http://10.240.70.26:8181"
+	},
+	"testcases": {
+		"addLinkAndGroup": {
+			"testcase": "testcases/addLinkAndGroup1.json",
+			"parameters": [
+				{"userLabel*source_node*dest_node*source_port*dest_port*group_name*calendar_type*group_id*nodea_member*nodeb_member": "${parameterize(linkAndGroup1.csv)}"}
+			]
+		}
+	}
+}

@@ -1,0 +1,47 @@
+[
+    {
+        "config": {
+            "name": "add adj",
+            "variables": {
+                "domainId":"${getDomainId()}"
+            }
+        }
+    },
+    {
+        "test": {
+            "name": "/sid/sid-mgt/domains/adj-sids",
+            "request": {
+                "url": "/sid/sid-mgt/domains/adj-sids",
+                "method": "POST",
+                "headers": {
+                    "Authorization": "Basic YWRtaW46YWRtaW4=",
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36",
+                    "Content-Type": "application/json"
+                },
+                "json": { 
+                    "domain-id": "$domainId",
+                    "Adj-SID": "$adjSid",
+                    "ip-version": 1,
+                    "local-node-id": "${getNodeId($localNodeIp)}",
+                    "local-prefix": "${getPrefix($localNodeIp,$clientName)}",
+                    "name": "$name",
+                    "remote-node-id": "${getNodeId($remoteNodeIp)}",
+                    "remote-prefix": "${getPrefix($remoteNodeIp,$clientName)}",
+                    "sid-value-type": 1,
+                    "work-mode": "Normal",
+                    "is-local": true,
+                    "status": "Planning",
+                    "adj-sid-id": "${getUuid()}"
+                }
+            },
+            "validate": [
+                {
+                    "eq": [
+                        "status_code",
+                        200
+                    ]
+                }
+            ]
+        }
+    }
+]

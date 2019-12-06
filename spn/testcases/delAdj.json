@@ -2,14 +2,16 @@
     {
         "config": {
             "name": "testcase description",
-            "variables": {}
+            "variables": {
+                "domainId":"${getDomainId()}"
+            }
         }
     },
     {
         "test": {
-            "name": "/flexe/mgt-group/group/",
+            "name": "/sid/sid-mgt/domains/adj-sids/adj-sid",
             "request": {
-                "url": "/flexe/mgt-group/group/$groupId",
+                "url": "/sid/sid-mgt/domains/$domainId/adj-sids/adj-sid/$adjSidId",
                 "method": "DELETE",
                 "headers": {
                     "Authorization": "Basic YWRtaW46YWRtaW4=",

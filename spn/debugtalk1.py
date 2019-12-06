@@ -7,29 +7,23 @@ import sys
 
 # 后台服务器ip
 server = "10.240.70.180"
-# 当前脚本所在目录
-path = sys.path[0]
 # 登录的用户名、密码
 admin = "admin"
-password = "admin"
+password = "admin "
+# 当前脚本所在目录
+path = "E:\\hrunProject\\spn"
 
 # 根据ip获取网元nodeId
 def getNodeId(ip):
     url = "http://"+ server +":8181/restconf/operational/utstarcom-sdn-connection-config:connections/"
     r = requests.get(url = url, auth = (admin, password))
+    nodeConnectionList = json.loads(r.text).get("connections").get("node-connections").get("node-connection")
     nodeId = ""
-    try:
-        nodeConnectionList = json.loads(r.text).get("connections").get("node-connections").get("node-connection")
-    except AttributeError as e:
-        print(e)
-        print(json.loads(r.text))
-        return nodeId
-    else:
-        for item in nodeConnectionList:
-            if item["host"] == ip:
-                nodeId = item["id"]
-                break
-        return nodeId
+    for item in nodeConnectionList:
+        if item["host"] == ip:
+            nodeId = item["id"]
+            break
+    return nodeId
 
 # def setPhysicalDcId(id):
 #     filename = path + "\\testcases\\csv\\groupDict.csv"
@@ -78,11 +72,11 @@ def writeGroupId():
             groupName.append(group["name"])
             groupDict[group["name"]] = group["id"]
         df = pd.DataFrame({'groupName': groupName, 'groupId': groupId})
-        df.to_csv(path + "\\testcases\\csv\\groupNameAndId.csv", sep=',', header=True, index=False)
+        df.to_csv(path + "\\testcases\\csv\\group.csv", sep=',', header=True, index=False)
         writeGroupDict(groupDict)
     else:
         df = pd.DataFrame({'groupName': groupName, 'groupId': groupId})
-        df.to_csv(path + "\\testcases\\csv\\groupNameAndId.csv", sep=',', header=True, index=False)
+        df.to_csv(path + "\\testcases\\csv\\group.csv", sep=',', header=True, index=False)
         writeGroupDict(groupDict)
 
 # 将group的name和id,以key:value的形式写入groupDict.csv文件
@@ -117,28 +111,10 @@ def writeLinkId():
         for link in linkList:
             linkId.append(link["id"])
         df = pd.DataFrame({'linkId': linkId})
-        df.to_csv(path + "\\testcases\\csv\\links.csv", sep=',', header=True, index=False)
+        df.to_csv(path + "\\testcases\\csv\\link.csv", sep=',', header=True, index=False)
     else:
-        print("无link数据")
         df = pd.DataFrame({'linkId': linkId})
-        df.to_csv(path + "\\testcases\\csv\\links.csv", sep=',', header=True, index=False)
-
-def writeClientId():
-    url = "http://" + server + ":8181/flexe/mgt-client/clients"
-    r = requests.get(url= url, auth=(admin,password))
-    clientId = []
-    clientName = []
-    clientList = json.loads(r.text)
-    if len(clientList):
-        for client in clientList:
-            clientId.append(client.get("id"))
-            clientName.append(client.get("name"))
-        df = pd.DataFrame({'clientId': clientId, 'clientName': clientName})
-        df.to_csv(path + "\\testcases\\csv\\clientNameAndId.csv", sep=',', header=True, index=False)
-    else:
-        print("无client数据")
-        df = pd.DataFrame({'clientId': clientId, 'clientName': clientName})
-        df.to_csv(path + "\\testcases\\csv\\clientNameAndId.csv", sep=',', header=True, index=False)
+        df.to_csv(path + "\\testcases\\csv\\link.csv", sep=',', header=True, index=False)
 
 def getUuid():
     UUID = uuid.uuid4()
@@ -158,7 +134,7 @@ def getDomainId():
     return domainId
 
 # 添加adj时，获取对应网元端clientIndex值和ip
-def getPrefix(nodeIp,clientName,active = "no"):
+def getPrefix(nodeIp,clientName,status="deactive"):
     prefix = ""
     nodeId = getNodeId(nodeIp)
     url = "http://" + server + ":8181/flexe/mgt-client/ne/"+ nodeId +"/clients"
@@ -170,21 +146,21 @@ def getPrefix(nodeIp,clientName,active = "no"):
                 index = client.get("flexEClientIndex")
                 ipAddr = client.get("ip-addresses")[0].get("ip-address")
                 length = client.get("ip-addresses")[0].get("length")
-                if active == "no":
-                    prefix = index
-                elif active == "yes":
+                if status == "deactive":
+                    prefix = index + ";" + ipAddr + "/"+ str(length)
+                elif status == "active":
                     prefix = ipAddr + "/" + str(length)
     else:
         prefix = ""
     return prefix
 
 def writeClientId():
-    url = "http://" + server + ":8181/flexe/mgt-client/clients"
+    url = "http://" + server + ":8181/restconf/config/utstarcom-sdn-flexe:flexe-clients"
     r = requests.get(url=url, auth=(admin, password))
     clientId = []
     clientName = []
-    clientList = json.loads(r.text)
-    if clientList:
+    if r.status_code != 404:
+        clientList = json.loads(r.text).get("flexe-clients").get("flexe-client")
         for client in clientList:
             clientId.append(client.get("id"))
             clientName.append(client.get("name"))
@@ -194,34 +170,17 @@ def writeClientId():
         df = pd.DataFrame({'clientName': clientName, 'clientId': clientId})
         df.to_csv(path + "\\testcases\\csv\\clientNameAndId.csv", sep=',', header=True, index=False)
 
-'''
-adj部分
-'''
 def writeAdjId():
-    domainId = getDomainId()
-    url = "http://" + server + ":8181/sid/sid-mgt/domains/" + domainId + "/adj-sids"
-    r = requests.get(url=url,auth=(admin,password))
-    adjSid = []
-    adjSidId = []
+    url = "http://" + server + ":8181/restconf/config/utstarcom-sdn-spn-sid:SR-Domain-SID"
+    r = requests.get(url=url, auth=(admin, password))
+    adjSidList = json.loads(r.text).get("SR-Domain-SID").get("SR-Domains")[0].get("Adj-SID")
     adjDict = {}
-    adjList = json.loads(r.text)
-    if adjList:
-        for adj in adjList:
-            adjSid.append(adj.get("Adj-SID"))
-            adjSidId.append(adj.get("adj-sid-id"))
-            adjDict[adj.get("Adj-SID")] = adj.get("adj-sid-id")
-            df = pd.DataFrame({'adjSid': adjSid, 'adjSidId': adjSidId})
-            df.to_csv(path + "\\testcases\\csv\\adjSidAndId.csv", sep=',', header=True, index=False)
-            writeAdjDict(adjDict)
-    else:
-        df = pd.DataFrame({'adjSid': adjSid, 'adjSidId': adjSidId})
-        df.to_csv(path + "\\testcases\\csv\\adjSidAndId.csv", sep=',', header=True, index=False)
-        writeAdjDict(adjDict)
-
-# 将sdj的name和id,以key:value的形式写入adjDict.csv文件
-def writeAdjDict(adjDict):
+    for adj in adjSidList:
+        adjSid = adj.get("adj-sid-id")
+        adjName = adj.get("name")
+        adjDict[adjName] = adjSid
     filename = path + "\\testcases\\csv\\adjDict.csv"
-    with open(filename,"w+") as file_object:
+    with open(filename, "w+") as file_object:
         if adjDict != "":
             file_object.seek(0, 0)
             file_object.write(str(adjDict))
@@ -229,7 +188,7 @@ def writeAdjDict(adjDict):
             file_object.seek(0, 0)
             file_object.write()
 
-def getAdjIdBySid(name):
+def getAdjIdByName(name):
     filename = path + "\\testcases\\csv\\adjDict.csv"
     with open(filename,"r")as file_object:
         content = file_object.read()
@@ -239,26 +198,3 @@ def getAdjIdBySid(name):
         else:
             id = ""
         return id
-
-'''
-nodeSid 部分
-'''
-def getPrefixIpByNodeId(ip):
-    nodeId = getNodeId(ip)
-    url = "http://" + server + ":8181/sid/sid-mgt/ne/"+ nodeId +"/ipaddrs/1?isNodeSID=true"
-    r = requests.get(url= url,auth=(admin,password))
-    prefixIpList = json.loads(r.text)
-    if prefixIpList:
-        for ip in prefixIpList:
-            if ip == "192.168.0.254/24":
-                return ip
-    else:
-        return "127.0.0.1/8"
-        # return ""
-
-def getNodeSid(uuid):
-    domainId = getDomainId()
-    url = "http://" + server + ":8181/sid/sid-mgt/domains/"+ domainId +"/labels/prefix-sids/"+ uuid
-    r = requests.get(url=url,auth=(admin,password))
-    nodeSid = json.loads(r.text)
-    return nodeSid

@@ -1,0 +1,46 @@
+ [
+    {
+        "config": {
+            "name": "add link"
+        }
+    },
+    {
+        "test": {
+            "name": "/topology/topology/link/add",
+            "request": {
+                "url": "/topology/topology/link/add",
+                "method": "POST",
+                "headers": {
+                    "Authorization": "Basic YWRtaW46YWRtaW4=",
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36",
+                    "Content-Type": "application/json"
+                },
+                "json": {
+                    "userLabel": "$userLabel",
+                    "source-node": "${getNodeId($source_node)}",
+                    "dest-node": "${getNodeId($dest_node)}",
+                    "source-port": "$source_port",
+                    "dest-port": "$dest_port",
+                    "topo-id": "${getPhysicalDcIdBySPN()}"
+                }
+            },
+            "extract": [
+                {"linkId": "content.linkId"}
+            ],
+            "validate": [
+                {
+                    "eq": [
+                        "status_code",
+                        200
+                    ]
+                },
+                {
+                    "eq": [
+                        "headers.Content-Type",
+                        "application/json"
+                    ]
+                }
+            ]
+        }
+    }
+]

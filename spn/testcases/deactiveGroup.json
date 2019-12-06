@@ -7,14 +7,16 @@
     },
     {
         "test": {
-            "name": "/flexe/mgt-group/group/",
+            "name": "/flexe/mgt-group/group/deactivation",
             "request": {
-                "url": "/flexe/mgt-group/group/$groupId",
-                "method": "DELETE",
+                "url": "/flexe/mgt-group/group/$groupId/deactivation",
+                "method": "POST",
                 "headers": {
                     "Authorization": "Basic YWRtaW46YWRtaW4=",
-                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36"
-                }
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36",
+                    "Content-Type": "application/json"
+                },
+                "json": {}
             },
             "validate": [
                 {

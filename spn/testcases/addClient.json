@@ -51,7 +51,8 @@
                     ],
                     "used-channel": "",
                     "sync-status": "na",
-                    "bandwidth": "$bandwidth"
+                    "bandwidth": "$bandwidth",
+                    "available-bandwidth":"$aviBandwidth"
                 }
             },
             "validate": [
@@ -59,12 +60,6 @@
                     "eq": [
                         "status_code",
                         200
-                    ]
-                },
-                {
-                    "eq": [
-                        "headers.Content-Type",
-                        "application/json"
                     ]
                 }
             ]

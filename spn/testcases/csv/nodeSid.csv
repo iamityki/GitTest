@@ -1,0 +1,11 @@
+nodeSidName,nodeIp,uuid
+NE1-nodeSid,10.240.30.196,ceea6d45-7a24-4b08-8af0-ba23d201ac53
+NE2-nodeSid,10.240.30.197,078fb5f2-52ea-45b1-8ef9-abb9bfe61bb0
+NE3-nodeSid,10.240.30.198,0c56eff9-c9e2-4a9f-9b0c-c78e5351d895
+NE4-nodeSid,10.240.30.199,4d7f6d50-86db-4ea0-a25c-f985dec105bd
+NE5-nodeSid,10.240.30.186,208ebd1c-f709-4def-84be-8cd5d92c88e5
+NE6-nodeSid,10.240.30.187,4152217f-ea68-460a-a853-fa2a7af2034a
+NE7-nodeSid,10.240.30.188,ecec5c3e-8698-4a2e-bd1b-079498d388c3
+NE8-nodeSid,10.240.30.189,6ff0fd7a-1e88-4a6b-8e62-3945428ba674
+NE9-nodeSid,10.240.30.190,1caa3591-5de9-4702-abb9-4a876a8f335e
+NE10-nodeSid,10.240.30.191,72163df1-0e37-49bb-b0a7-fc57f4931516

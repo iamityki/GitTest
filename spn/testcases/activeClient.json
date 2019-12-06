@@ -1,27 +1,27 @@
 [
     {
         "config": {
-            "name": "testcase description",
-            "variables": {
-                "id":"${getPhysicalDcIdBySPN()}"
-            }
+            "name": "active client",
+            "variables": {}
         }
     },
     {
         "test": {
-            "name": "/topology/topology/link/del",
+            "name": "/flexe/mgt-client/client/activation",
             "request": {
-                "url": "/topology/topology/link/del",
+                "url": "/flexe/mgt-client/client/$clientId/activation",
+                "params": {
+                    "network-type": "",
+                    "nodea-isis-int": "",
+                    "nodez-isis-int": ""
+                },
                 "method": "POST",
                 "headers": {
                     "Authorization": "Basic YWRtaW46YWRtaW4=",
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36",
                     "Content-Type": "application/json"
                 },
-                "json": {
-                    "topo-id": "$id",
-                    "link-id": "$linkId"
-                }
+                "json": {}
             },
             "validate": [
                 {

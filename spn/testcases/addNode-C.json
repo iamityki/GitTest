@@ -30,8 +30,116 @@
                 },
                 {
                     "eq": [
+                        "headers.Content-Type",
+                        "application/json"
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.children",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.name",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.ip",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.type",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.vendorName",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.location",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.resourceId",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.label",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.adminStatus",
+                        0
+                    ]
+                },
+                {
+                    "eq": [
                         "content.operateStatus",
                         0
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.parentGroupId",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.parentTopoId",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.parentNodesetId",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.locator",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.neType",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.topoX",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.topoY",
+                        null
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.alarmCount",
+                        null
                     ]
                 }
             ]
@@ -106,7 +214,6 @@
                     "networkLevel": 0,
                     "user": "",
                     "reserved": "",
-                    "cmccId":"$hostIp",
                     "parentNcdId": "$physicalDcId"
                 }
             },
@@ -125,37 +232,37 @@
                 },
                 {
                     "eq": [
-                        "content._nodeType",
+                        "content.nodeType",
                         "$neType"
                     ]
                 },
                 {
                     "eq": [
-                        "content._reconnectOnChangedSchema",
+                        "content.reconnectOnChangedSchema",
                         true
                     ]
                 },
                 {
                     "eq": [
-                        "content._defaultRequestTimeoutMillis",
+                        "content.defaultRequestTimeoutMillis",
                         60000
                     ]
                 },
                 {
                     "eq": [
-                        "content._betweenAttemptsTimeoutMillis",
+                        "content.betweenAttemptsTimeoutMillis",
                         30000
                     ]
                 },
                 {
                     "eq": [
-                        "content._adminIp",
+                        "content.adminIp",
                         "$hostIp"
                     ]
                 },
                 {
                     "eq": [
-                        "content._parentNcdId",
+                        "content.parentNcdId",
                         "$physicalDcId"
                     ]
                 }

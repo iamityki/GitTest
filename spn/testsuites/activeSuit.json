@@ -1,0 +1,30 @@
+{
+	"config": {
+		"name": "create users with uid",
+		"base_url": "http://10.240.70.180:8181",
+		"variables": {
+			"writeGroupId":"${writeGroupId()}",
+			"writeClientId":"${writeClientId()}"
+		}
+	},
+	"testcases": {
+		"activeGroup": {
+			"testcase": "testcases/activeGroup.json",
+			"parameters": [
+				{"groupId": "${parameterize(groupNameAndId.csv)}"}
+			]
+		},
+		"activeClient": {
+			"testcase": "testcases/activeClient.json",
+			"parameters": [
+				{"clientId": "${parameterize(clientNameAndId.csv)}"}
+			]
+		},
+		"activeAdj": {
+			"testcase": "testcases/activeAdj.json",
+			"parameters": [
+				{"groupId": "${parameterize(adjs.csv)}"}
+			]
+		}
+	}
+}

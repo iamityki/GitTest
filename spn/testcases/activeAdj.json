@@ -1,0 +1,50 @@
+[
+    {
+        "config": {
+            "name": "testcase description",
+            "variables": {
+                "domainId":"${getDomainId()}"
+            }
+        }
+    },
+    {
+        "test": {
+            "name": "/sid/sid-mgt/domains/adj-sids/activated-adjSids",
+            "request": {
+                "url": "/sid/sid-mgt/domains/$domainId/adj-sids/activated-adjSids/${getAdjIdBySid($adjSid)}",
+                "method": "POST",
+                "headers": {
+                    "Authorization": "Basic YWRtaW46YWRtaW4=",
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36",
+                    "Content-Type": "application/json"
+                },
+                "json": {
+                    "Adj-SID": "$adjSid",
+                    "ip-version": 1,
+                    "local-node-id": "${getNodeId($localNodeIp)}",
+                    "local-prefix": "${getPrefix($localNodeIp,$clientName,yes)}",
+                    "name": "$name",
+                    "remote-node-id": "${getNodeId($remoteNodeIp)}",
+                    "remote-prefix": "${getPrefix($remoteNodeIp,$clientName,yes)}",
+                    "sid-value-type": 1,
+                    "work-mode": "Normal",
+                    "is-local": true,
+                    "adj-sid-id": "${getAdjIdBySid($adjSid)}",
+                    "adminStatus": "AdminDown",
+                    "operateStatus": "OperateDown",
+                    "status": "Planning",
+                    "syncStatus": "Na",
+                    "domain-id": "$domainId"
+                }
+            },
+            "validate": [
+                {
+                    "eq": [
+                        "status_code",
+                        200
+                    ]
+                }
+            ]
+        }
+    }
+]
